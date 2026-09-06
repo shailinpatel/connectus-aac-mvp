@@ -1,0 +1,803 @@
+{
+  "id": "local-board",
+  "name": "My communication board",
+  "categories": [
+    {
+      "id": "1",
+      "name": "Core Words",
+      "color": "blue",
+      "sortOrder": 0
+    },
+    {
+      "id": "2",
+      "name": "Basics",
+      "color": "peach",
+      "sortOrder": 1
+    },
+    {
+      "id": "3",
+      "name": "Feelings",
+      "color": "rose",
+      "sortOrder": 2
+    },
+    {
+      "id": "4",
+      "name": "Needs",
+      "color": "green",
+      "sortOrder": 3
+    },
+    {
+      "id": "5",
+      "name": "Food & Drink",
+      "color": "yellow",
+      "sortOrder": 4
+    },
+    {
+      "id": "6",
+      "name": "People",
+      "color": "purple",
+      "sortOrder": 5
+    },
+    {
+      "id": "7",
+      "name": "Activities",
+      "color": "teal",
+      "sortOrder": 6
+    },
+    {
+      "id": "8",
+      "name": "School",
+      "color": "sand",
+      "sortOrder": 7
+    }
+  ],
+  "tiles": [
+    {
+      "id": "1",
+      "categoryId": "1",
+      "text": "More",
+      "symbol": "more",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 0
+    },
+    {
+      "id": "2",
+      "categoryId": "1",
+      "text": "Help",
+      "symbol": "help",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "3",
+      "categoryId": "1",
+      "text": "Stop",
+      "symbol": "stop",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 2
+    },
+    {
+      "id": "4",
+      "categoryId": "1",
+      "text": "Go",
+      "symbol": "go",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "5",
+      "categoryId": "1",
+      "text": "Want",
+      "symbol": "want",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "6",
+      "categoryId": "1",
+      "text": "Like",
+      "symbol": "like",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 5
+    },
+    {
+      "id": "7",
+      "categoryId": "1",
+      "text": "Don't like",
+      "symbol": "dislike",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 6
+    },
+    {
+      "id": "8",
+      "categoryId": "1",
+      "text": "Again",
+      "symbol": "again",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 7
+    },
+    {
+      "id": "9",
+      "categoryId": "1",
+      "text": "All done",
+      "symbol": "all_done",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 8
+    },
+    {
+      "id": "10",
+      "categoryId": "1",
+      "text": "Yes",
+      "symbol": "yes",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 9
+    },
+    {
+      "id": "11",
+      "categoryId": "1",
+      "text": "No",
+      "symbol": "no",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 10
+    },
+    {
+      "id": "12",
+      "categoryId": "1",
+      "text": "Mine",
+      "symbol": "want",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 11
+    },
+    {
+      "id": "13",
+      "categoryId": "1",
+      "text": "My",
+      "symbol": "person",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 12
+    },
+    {
+      "id": "14",
+      "categoryId": "1",
+      "text": "You",
+      "symbol": "person",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 13
+    },
+    {
+      "id": "15",
+      "categoryId": "1",
+      "text": "It",
+      "symbol": "it",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 14
+    },
+    {
+      "id": "16",
+      "categoryId": "1",
+      "text": "Here",
+      "symbol": "map",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 15
+    },
+    {
+      "id": "17",
+      "categoryId": "1",
+      "text": "There",
+      "symbol": "map",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 16
+    },
+    {
+      "id": "18",
+      "categoryId": "1",
+      "text": "In",
+      "symbol": "down",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 17
+    },
+    {
+      "id": "19",
+      "categoryId": "1",
+      "text": "Out",
+      "symbol": "up",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 18
+    },
+    {
+      "id": "20",
+      "categoryId": "1",
+      "text": "Up",
+      "symbol": "up",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 19
+    },
+    {
+      "id": "21",
+      "categoryId": "1",
+      "text": "Down",
+      "symbol": "down",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 20
+    },
+    {
+      "id": "22",
+      "categoryId": "1",
+      "text": "On",
+      "symbol": "on",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 21
+    },
+    {
+      "id": "23",
+      "categoryId": "1",
+      "text": "Off",
+      "symbol": "off",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 22
+    },
+    {
+      "id": "24",
+      "categoryId": "1",
+      "text": "Open",
+      "symbol": "door",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 23
+    },
+    {
+      "id": "25",
+      "categoryId": "1",
+      "text": "Close",
+      "symbol": "door",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 24
+    },
+    {
+      "id": "26",
+      "categoryId": "1",
+      "text": "Eat",
+      "symbol": "eat",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 25
+    },
+    {
+      "id": "27",
+      "categoryId": "1",
+      "text": "Drink",
+      "symbol": "drink",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 26
+    },
+    {
+      "id": "28",
+      "categoryId": "1",
+      "text": "Play",
+      "symbol": "play",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 27
+    },
+    {
+      "id": "29",
+      "categoryId": "1",
+      "text": "Look",
+      "symbol": "look",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 28
+    },
+    {
+      "id": "30",
+      "categoryId": "1",
+      "text": "Read",
+      "symbol": "book",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 29
+    },
+    {
+      "id": "31",
+      "categoryId": "1",
+      "text": "Wash",
+      "symbol": "wash",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 30
+    },
+    {
+      "id": "32",
+      "categoryId": "1",
+      "text": "Need",
+      "symbol": "want",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 31
+    },
+    {
+      "id": "33",
+      "categoryId": "1",
+      "text": "Hello",
+      "symbol": "hello",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 32
+    },
+    {
+      "id": "34",
+      "categoryId": "1",
+      "text": "Goodbye",
+      "symbol": "goodbye",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 33
+    },
+    {
+      "id": "35",
+      "categoryId": "1",
+      "text": "I",
+      "symbol": "person",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 34
+    },
+    {
+      "id": "36",
+      "categoryId": "1",
+      "text": "Me",
+      "symbol": "person",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 35
+    },
+    {
+      "id": "37",
+      "categoryId": "1",
+      "text": "Finished",
+      "symbol": "all_done",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 36
+    },
+    {
+      "id": "38",
+      "categoryId": "2",
+      "text": "Please",
+      "symbol": "want",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 0
+    },
+    {
+      "id": "39",
+      "categoryId": "2",
+      "text": "Thank you",
+      "symbol": "love",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "40",
+      "categoryId": "2",
+      "text": "Hello",
+      "symbol": "hello",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 2
+    },
+    {
+      "id": "41",
+      "categoryId": "2",
+      "text": "Goodbye",
+      "symbol": "goodbye",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 3
+    },
+    {
+      "id": "42",
+      "categoryId": "3",
+      "text": "I am happy",
+      "symbol": "happy",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 0
+    },
+    {
+      "id": "43",
+      "categoryId": "3",
+      "text": "I am sad",
+      "symbol": "sad",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 1
+    },
+    {
+      "id": "44",
+      "categoryId": "3",
+      "text": "I am tired",
+      "symbol": "tired",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 2
+    },
+    {
+      "id": "45",
+      "categoryId": "3",
+      "text": "I am scared",
+      "symbol": "scared",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 3
+    },
+    {
+      "id": "46",
+      "categoryId": "3",
+      "text": "I love you",
+      "symbol": "love",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "47",
+      "categoryId": "3",
+      "text": "I need a break",
+      "symbol": "rest",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 5
+    },
+    {
+      "id": "48",
+      "categoryId": "4",
+      "text": "I am hungry",
+      "symbol": "eat",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 0
+    },
+    {
+      "id": "49",
+      "categoryId": "4",
+      "text": "I am thirsty",
+      "symbol": "drink",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "50",
+      "categoryId": "4",
+      "text": "I need the bathroom",
+      "symbol": "bathroom",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 2
+    },
+    {
+      "id": "51",
+      "categoryId": "4",
+      "text": "I need help",
+      "symbol": "help",
+      "photoId": null,
+      "isFavorite": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "52",
+      "categoryId": "4",
+      "text": "I am in pain",
+      "symbol": "doctor",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 4
+    },
+    {
+      "id": "53",
+      "categoryId": "4",
+      "text": "I want to rest",
+      "symbol": "rest",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 5
+    },
+    {
+      "id": "54",
+      "categoryId": "5",
+      "text": "Water, please",
+      "symbol": "drink",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 0
+    },
+    {
+      "id": "55",
+      "categoryId": "5",
+      "text": "More, please",
+      "symbol": "more",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 1
+    },
+    {
+      "id": "56",
+      "categoryId": "5",
+      "text": "All done",
+      "symbol": "all_done",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 2
+    },
+    {
+      "id": "57",
+      "categoryId": "5",
+      "text": "I like this",
+      "symbol": "like",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 3
+    },
+    {
+      "id": "58",
+      "categoryId": "5",
+      "text": "I do not like this",
+      "symbol": "dislike",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 4
+    },
+    {
+      "id": "59",
+      "categoryId": "6",
+      "text": "Mom",
+      "symbol": "person",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 0
+    },
+    {
+      "id": "60",
+      "categoryId": "6",
+      "text": "Dad",
+      "symbol": "person",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 1
+    },
+    {
+      "id": "61",
+      "categoryId": "6",
+      "text": "Friend",
+      "symbol": "person",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 2
+    },
+    {
+      "id": "62",
+      "categoryId": "6",
+      "text": "Teacher",
+      "symbol": "school",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 3
+    },
+    {
+      "id": "63",
+      "categoryId": "6",
+      "text": "Doctor",
+      "symbol": "doctor",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 4
+    },
+    {
+      "id": "64",
+      "categoryId": "7",
+      "text": "I want to play",
+      "symbol": "play",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 0
+    },
+    {
+      "id": "65",
+      "categoryId": "7",
+      "text": "Read a book",
+      "symbol": "book",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 1
+    },
+    {
+      "id": "66",
+      "categoryId": "7",
+      "text": "Watch a show",
+      "symbol": "tv",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 2
+    },
+    {
+      "id": "67",
+      "categoryId": "7",
+      "text": "Go outside",
+      "symbol": "outside",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 3
+    },
+    {
+      "id": "68",
+      "categoryId": "7",
+      "text": "Listen to music",
+      "symbol": "music",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 4
+    },
+    {
+      "id": "69",
+      "categoryId": "8",
+      "text": "School",
+      "symbol": "school",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 0
+    },
+    {
+      "id": "70",
+      "categoryId": "8",
+      "text": "Class",
+      "symbol": "people",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 1
+    },
+    {
+      "id": "71",
+      "categoryId": "8",
+      "text": "Teacher",
+      "symbol": "school",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 2
+    },
+    {
+      "id": "72",
+      "categoryId": "8",
+      "text": "Read",
+      "symbol": "book",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 3
+    },
+    {
+      "id": "73",
+      "categoryId": "8",
+      "text": "Write",
+      "symbol": "write",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 4
+    },
+    {
+      "id": "74",
+      "categoryId": "8",
+      "text": "Draw",
+      "symbol": "draw",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 5
+    },
+    {
+      "id": "75",
+      "categoryId": "8",
+      "text": "Book",
+      "symbol": "book",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 6
+    },
+    {
+      "id": "76",
+      "categoryId": "8",
+      "text": "Pencil",
+      "symbol": "write",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 7
+    },
+    {
+      "id": "77",
+      "categoryId": "8",
+      "text": "Paper",
+      "symbol": "write",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 8
+    },
+    {
+      "id": "78",
+      "categoryId": "8",
+      "text": "Backpack",
+      "symbol": "backpack",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 9
+    },
+    {
+      "id": "79",
+      "categoryId": "8",
+      "text": "Lunch",
+      "symbol": "lunch",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 10
+    },
+    {
+      "id": "80",
+      "categoryId": "8",
+      "text": "Recess",
+      "symbol": "outside",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 11
+    },
+    {
+      "id": "81",
+      "categoryId": "8",
+      "text": "Bathroom",
+      "symbol": "bathroom",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 12
+    },
+    {
+      "id": "82",
+      "categoryId": "8",
+      "text": "Help",
+      "symbol": "help",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 13
+    },
+    {
+      "id": "83",
+      "categoryId": "8",
+      "text": "Finished",
+      "symbol": "all_done",
+      "photoId": null,
+      "isFavorite": false,
+      "sortOrder": 14
+    }
+  ]
+}

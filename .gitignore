@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.env*
+!.env.example
+data/
+test-results/
+playwright-report/
+*.tsbuildinfo
+public/offline.html
+public/sw.js
+.DS_Store
+.playwright-mcp/
