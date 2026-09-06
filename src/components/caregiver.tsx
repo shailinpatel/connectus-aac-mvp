@@ -12,7 +12,7 @@ export type Preferences = {
 };
 export const defaultPreferences: Preferences = {
   speakOnTap: true,
-  rate: 0.85,
+  rate: 1,
   voiceURI: "",
   largeTiles: false,
 };
@@ -195,8 +195,14 @@ export function BoardSettings({
             />{" "}
             Use extra-large tiles
           </label>
+          <p className="helper">
+            <strong>Board voice: Sarah</strong>
+            <br />
+            One warm, calm voice for the standard words and phrases. Recordings
+            are saved with your offline board.
+          </p>
           <label>
-            Voice
+            Fallback voice for new phrases
             <select
               value={preferences.voiceURI}
               onChange={(e) =>
@@ -225,8 +231,9 @@ export function BoardSettings({
             />
           </label>
           <p className="helper">
-            These preferences stay in this browser. For offline speech, choose
-            an on-device voice and test it with this device disconnected.
+            These preferences stay in this browser. Custom phrases without a
+            recording use the fallback voice. Choose an on-device voice for
+            those phrases to work offline too.
           </p>
         </section>
         <section>

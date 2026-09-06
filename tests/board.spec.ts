@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import path from "node:path";
+import { recordingFor } from "../src/lib/recordings";
 
 test.describe.configure({ mode: "serial" });
 const origin = "http://127.0.0.1:3100";
@@ -46,6 +47,24 @@ test("sentence controls, caregiver setup, photo persistence, and offline reload"
   const pageErrors: string[] = [];
   page.on("pageerror", (e) => pageErrors.push(e.message));
   await page.addInitScript(() => {
+    const probe = window as unknown as {
+      playedRecordings: string[];
+      completedRecordings: string[];
+    };
+    probe.playedRecordings = [];
+    probe.completedRecordings = [];
+    const nativePlay = HTMLMediaElement.prototype.play;
+    const observed = new WeakSet<HTMLMediaElement>();
+    HTMLMediaElement.prototype.play = function () {
+      probe.playedRecordings.push(new URL(this.src).pathname);
+      if (!observed.has(this)) {
+        observed.add(this);
+        this.addEventListener("ended", () =>
+          probe.completedRecordings.push(new URL(this.src).pathname),
+        );
+      }
+      return nativePlay.call(this);
+    };
     (window as unknown as { spokenPhrases: string[] }).spokenPhrases = [];
     window.speechSynthesis.speak = (utterance) => {
       (window as unknown as { spokenPhrases: string[] }).spokenPhrases.push(
@@ -67,11 +86,31 @@ test("sentence controls, caregiver setup, photo persistence, and offline reload"
     page.getByRole("button", { name: "Remove More at position 2" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Speak my words" }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (
+          window as unknown as { completedRecordings: string[] }
+        ).completedRecordings.slice(-2),
+      ),
+    )
+    .toEqual([recordingFor("Want")!.src, recordingFor("More")!.src]);
+  expect(
+    await page.evaluate(
+      () =>
+        (window as unknown as { playedRecordings: string[] }).playedRecordings,
+    ),
+  ).toEqual([
+    recordingFor("Want")!.src,
+    recordingFor("More")!.src,
+    recordingFor("Want")!.src,
+    recordingFor("More")!.src,
+  ]);
   expect(
     await page.evaluate(
       () => (window as unknown as { spokenPhrases: string[] }).spokenPhrases,
     ),
-  ).toEqual(["Want", "More", "Want More"]);
+  ).toEqual([]);
   await page.getByRole("button", { name: "Undo", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "Remove More at position 2" }),
@@ -156,11 +195,44 @@ test("sentence controls, caregiver setup, photo persistence, and offline reload"
   await expect(
     page.getByRole("button", { name: "Remove My teddy at position 1" }),
   ).toBeVisible();
+  await page.getByRole("button", { name: "Say Help", exact: true }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (
+          window as unknown as { completedRecordings: string[] }
+        ).completedRecordings.at(-1),
+      ),
+    )
+    .toBe(recordingFor("Help")!.src);
   await context.setOffline(false);
   await expect(
     page.getByRole("button", { name: "Caregiver mode", exact: true }),
   ).toBeEnabled({ timeout: 12000 });
   expect(pageErrors).toEqual([]);
+});
+
+test("missing recording falls back to device speech", async ({ page }) => {
+  await page.addInitScript(() => {
+    HTMLMediaElement.prototype.play = () =>
+      Promise.reject(new DOMException("Unavailable", "NotSupportedError"));
+    (window as unknown as { fallbackText: string }).fallbackText = "";
+    window.speechSynthesis.speak = (utterance) => {
+      (window as unknown as { fallbackText: string }).fallbackText =
+        utterance.text;
+    };
+    window.speechSynthesis.cancel = () => {};
+  });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Say Help", exact: true }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => (window as unknown as { fallbackText: string }).fallbackText,
+      ),
+    )
+    .toBe("Help");
+  await expect(page.getByRole("status")).toContainText("Recording unavailable");
 });
 
 test("caregiver create, validation, category management, photo removal, and delete", async ({

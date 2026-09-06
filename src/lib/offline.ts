@@ -1,5 +1,6 @@
 import type { Board } from "./types";
 import { tileImage } from "./types";
+import { recordingFor } from "./recordings";
 const CACHE = "connectus-pictures-v1";
 function openDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -38,9 +39,14 @@ export async function saveBoard(board: Board) {
     db.close();
   }
 }
-export async function cachePictures(board: Board) {
+export async function cacheBoardAssets(board: Board) {
   const cache = await caches.open(CACHE);
-  const urls = new Set(board.tiles.map(tileImage));
+  const urls = new Set([
+    ...board.tiles.map(tileImage),
+    ...board.tiles
+      .map((tile) => recordingFor(tile.text)?.src)
+      .filter((src): src is string => Boolean(src)),
+  ]);
   // Small batches avoid overwhelming slow devices and make readiness reflect actual downloads.
   const pending = [...urls];
   for (let i = 0; i < pending.length; i += 6)
@@ -49,7 +55,9 @@ export async function cachePictures(board: Board) {
         if (!(await cache.match(url))) {
           const response = await fetch(url);
           if (!response.ok)
-            throw new Error("Some pictures haven't downloaded yet.");
+            throw new Error(
+              "Some pictures or recordings haven't downloaded yet.",
+            );
           await cache.put(url, response);
         }
       }),
@@ -61,23 +69,35 @@ export async function prepareOffline(board: Board) {
   await saveBoard(board);
   if (process.env.NODE_ENV !== "production") return false;
   if (!("serviceWorker" in navigator) || !("caches" in window)) return false;
-  await navigator.serviceWorker.register("/sw.js");
+  const registration = await navigator.serviceWorker.register("/sw.js");
+  await registration.update();
   await new Promise<void>((resolve, reject) => {
-    const timeout = setTimeout(
-      () => reject(new Error("Offline setup timed out. Please retry.")),
-      20000,
-    );
-    navigator.serviceWorker.ready.then(
-      () => {
-        clearTimeout(timeout);
+    const worker =
+      registration.installing || registration.waiting || registration.active;
+    if (!worker) {
+      reject(new Error("Offline setup hasn't started. Please retry."));
+      return;
+    }
+    const cleanup = () => {
+      clearTimeout(timeout);
+      worker.removeEventListener("statechange", check);
+    };
+    const check = () => {
+      if (worker.state === "activated") {
+        cleanup();
         resolve();
-      },
-      (error) => {
-        clearTimeout(timeout);
-        reject(error);
-      },
-    );
+      } else if (worker.state === "redundant") {
+        cleanup();
+        reject(new Error("Offline setup failed. Please retry."));
+      }
+    };
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error("Offline setup timed out. Please retry."));
+    }, 20000);
+    worker.addEventListener("statechange", check);
+    check();
   });
-  await cachePictures(board);
+  await cacheBoardAssets(board);
   return true;
 }

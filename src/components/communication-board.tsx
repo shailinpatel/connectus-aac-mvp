@@ -13,7 +13,6 @@ import {
   Plus,
   Settings2,
   ShieldCheck,
-  Sparkles,
   Star,
   Undo2,
   Volume2,
@@ -30,6 +29,8 @@ import {
   type Preferences,
 } from "./caregiver";
 import { TileEditor } from "./tile-editor";
+import { CategoryIcon } from "./category-icon";
+import { BoardSpeaker } from "@/lib/speech";
 
 export function CommunicationBoard() {
   const [board, setBoard] = useState<Board | null>(null);
@@ -48,6 +49,8 @@ export function CommunicationBoard() {
   const [editing, setEditing] = useState<Tile | null>(null);
   const [preferences, setPreferences] = useState(defaultPreferences);
   const [spoken, setSpoken] = useState<string | null>(null);
+  const speaker = useRef<BoardSpeaker | null>(null);
+  useEffect(() => () => speaker.current?.stop(), []);
   const boardRef = useRef<Board | null>(null);
   const persistChain = useRef<Promise<void>>(Promise.resolve());
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -131,7 +134,7 @@ export function CommunicationBoard() {
             rate:
               typeof p.rate === "number" && p.rate >= 0.5 && p.rate <= 1.25
                 ? p.rate
-                : 0.85,
+                : defaultPreferences.rate,
             voiceURI: typeof p.voiceURI === "string" ? p.voiceURI : "",
           });
         }
@@ -183,33 +186,15 @@ export function CommunicationBoard() {
     }, 60000);
     return () => clearInterval(timer);
   }, [unlocked, notify]);
-  function speak(text: string, tileId?: string) {
-    if (!("speechSynthesis" in window)) {
-      notify(
-        "Speech isn't available in this browser. You can still build and show your sentence.",
-      );
-      return;
-    }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = preferences.rate;
-    const voice = window.speechSynthesis
-      .getVoices()
-      .find((v) => v.voiceURI === preferences.voiceURI);
-    if (voice) {
-      utterance.voice = voice;
-      utterance.lang = voice.lang;
-    } else utterance.lang = "en-US";
+  function speak(phrases: string[], tileId?: string) {
+    speaker.current ??= new BoardSpeaker();
     setSpoken(tileId || "sentence");
-    utterance.onend = () => setSpoken(null);
-    utterance.onerror = (event) => {
-      setSpoken(null);
-      if (!["interrupted", "canceled"].includes(event.error))
-        notify(
-          "Couldn't play that voice. Try an on-device voice in caregiver settings.",
-        );
-    };
-    window.speechSynthesis.speak(utterance);
+    void speaker.current.say(phrases, {
+      rate: preferences.rate,
+      voiceURI: preferences.voiceURI,
+      onDone: () => setSpoken(null),
+      onNotice: notify,
+    });
   }
   function tap(tile: Tile) {
     if (queue.length >= 30) {
@@ -217,7 +202,7 @@ export function CommunicationBoard() {
       return;
     }
     setQueue((current) => [...current, tile]);
-    if (preferences.speakOnTap) speak(tile.text, tile.id);
+    if (preferences.speakOnTap) speak([tile.text], tile.id);
   }
   async function lock() {
     try {
@@ -342,7 +327,7 @@ export function CommunicationBoard() {
             <button
               className={`button speak-button ${spoken === "sentence" ? "speaking" : ""}`}
               disabled={!queue.length}
-              onClick={() => speak(queue.map((t) => t.text).join(" "))}
+              onClick={() => speak(queue.map((t) => t.text))}
             >
               <Volume2 size={24} /> Speak
               <span className="speak-detail">my words</span>
@@ -369,7 +354,7 @@ export function CommunicationBoard() {
                 disabled={!queue.length}
                 onClick={() => {
                   setQueue([]);
-                  window.speechSynthesis?.cancel();
+                  speaker.current?.stop();
                   setSpoken(null);
                 }}
               >
@@ -400,7 +385,7 @@ export function CommunicationBoard() {
                   onClick={() => setActive(c.id)}
                 >
                   <span className={`category-mark tone-${c.color}`}>
-                    {c.id === "1" ? <Sparkles size={17} /> : <span />}
+                    <CategoryIcon categoryId={c.id} />
                   </span>
                   <span>{c.name}</span>
                   {active === c.id && <ChevronRight size={16} />}

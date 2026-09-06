@@ -36,11 +36,11 @@ The data is stored in **`data/connectus.db`**, not just in browser memory. Resta
 
 ## Offline behavior
 
-Wait for **Saved for offline** in the footer while online. That status appears after the service worker is ready, the board has been stored in IndexedDB, and all current picture assets have downloaded. You can also retry with **Save for offline**.
+Wait for **Saved for offline** in the footer while online. That status appears after the service worker is ready, the board has been stored in IndexedDB, and all current pictures and phrase recordings have downloaded. You can also retry with **Save for offline**.
 
 The saved board can reopen, switch categories, show custom photos, and build sentences without a connection or a running local server. Offline editing, new sign-ins, and cross-device sync are deferred. Browser data clearing/eviction removes the offline copy; it is not a substitute for a database backup.
 
-Speech uses the Web Speech API. Actual voice availability and sound depend on the browser, operating system, downloaded voices, and device audio settings. Prefer a voice marked **on device** and test it disconnected on the child's actual device. The automated tests verify speech requests, not audible playback. The original voice-preview audio files are preserved, but they are not a complete offline phrase voice pack.
+The standard board uses **Sarah**, one warm, calm ElevenLabs voice. All 83 starter tiles have recordings (76 unique phrases), saved locally with the offline board. Speak plays the recordings in sequence. Custom phrases without recordings fall back to device speech; choose an **on device** fallback voice for those phrases. Normal app use makes no ElevenLabs calls and consumes no credits. Actual audio still needs testing on the child's device. See [voice pack details and regeneration](docs/voice-pack.md).
 
 ## Stack and deployment path
 
@@ -65,7 +65,7 @@ npm test
 
 If Google Chrome is already installed, `PLAYWRIGHT_CHANNEL=chrome npm test` uses it instead. Tests start an isolated server on port 3100 and a separate `data/e2e-*.db`; they do not change the local board on port 3000.
 
-The tests cover authorization, origin validation, caregiver setup/unlock, sentence speech requests, photos surviving reload, offline page reload with a custom photo, online reconnection, invalid-image rejection, category/tile creation and deletion, mobile overflow, keyboard dialog behavior, and automated WCAG accessibility checks. Test databases and screenshots are ignored by Git.
+The tests cover authorization, origin validation, caregiver setup/unlock, recorded speech and fallback behavior, photos surviving reload, offline page reload with a custom photo and working recorded speech, online reconnection, invalid-image rejection, category/tile creation and deletion, mobile overflow, keyboard dialog behavior, and automated WCAG accessibility checks. Test databases and screenshots are ignored by Git.
 
 ## Original MVP and artwork
 

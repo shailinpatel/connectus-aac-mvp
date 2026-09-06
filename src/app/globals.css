@@ -442,18 +442,13 @@ fieldset {
 .category-mark {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   background: var(--tone);
+  color: color-mix(in srgb, var(--tone-ink) 72%, #253f3a);
   border: 1px solid var(--tone-border);
   flex-shrink: 0;
-}
-.category-mark > span {
-  width: 8px;
-  height: 8px;
-  background: var(--tone-ink);
-  border-radius: 3px;
 }
 .tone-blue {
   --tone: #edf2fb;
@@ -1125,8 +1120,8 @@ select {
     display: none;
   }
   .category-mark {
-    width: 22px;
-    height: 22px;
+    width: 28px;
+    height: 28px;
     border-radius: 6px;
   }
   .board-heading h1 {

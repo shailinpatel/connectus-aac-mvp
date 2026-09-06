@@ -21,9 +21,9 @@ Photos are decoded with a pixel limit and a strict file-type allowlist, resized,
 
 ## Offline lifecycle
 
-The home page is a static React shell; it contains no server-rendered child or caregiver data. Online board reads update the visible state immediately and serialize cache writes. Offline startup restores the last IndexedDB snapshot. The production service worker pre-caches the generated shell, JavaScript, CSS, font files, and icons; all board pictures are downloaded separately. Caregiver endpoints and mutation responses are never cached. Old photo cache entries are removed after a successful full snapshot download.
+The home page is a static React shell; it contains no server-rendered child or caregiver data. Online board reads update the visible state immediately and serialize cache writes. Offline startup restores the last IndexedDB snapshot. The production service worker pre-caches the generated shell, JavaScript, CSS, font files, and icons; board pictures and matching voice recordings are downloaded separately. Caregiver endpoints and mutation responses are never cached. Old photo cache entries are removed after a successful full snapshot download.
 
-An offline session is read-only. No write queue exists, so the app never claims that unsent edits have synced. A restored connection refreshes from the server. The service worker follows the normal waiting lifecycle on a new build, keeping existing tabs on their current shell until they close. Changes to the data contract will need explicit IndexedDB migration and shell compatibility handling.
+An offline session is read-only. No write queue exists, so the app never claims that unsent edits have synced. A restored connection refreshes from the server. Compatible service worker updates activate immediately so existing tabs gain audio caching. The previous shell cache is retained for open tabs; older shell caches are removed. Changes to the data contract will need explicit IndexedDB migration and shell compatibility handling.
 
 ## Future accounts and devices
 
@@ -33,4 +33,4 @@ An offline session is read-only. No write queue exists, so the app never claims 
 4. Introduce an offline mutation log with stable operation IDs, retries, conflict resolution, and observable sync status only when offline editing is required. Offline reading already works without accounts.
 5. Test PWA installation, speech, touch targets, and storage survival on the intended iPads/Android devices. If native capabilities become necessary, keep the board API and vocabulary model while replacing the presentation and device-storage layers.
 
-No analytics or external speech provider is included. ARASAAC source symbol choices are inherited from the MVP and should be reviewed with the child's caregiver or communication professional as part of tailoring the board; the editor lets them replace unfamiliar pictures.
+No analytics or runtime external speech provider is included. The bundled Sarah recordings were generated offline using ElevenLabs; browser speech handles unrecorded custom text. ARASAAC source symbol choices are inherited from the MVP and should be reviewed with the child's caregiver or communication professional as part of tailoring the board; the editor lets them replace unfamiliar pictures.

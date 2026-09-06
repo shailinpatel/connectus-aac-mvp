@@ -1,0 +1,396 @@
+{
+  "voiceName": "Sarah",
+  "voiceId": "EXAVITQu4vr4xnSDxMaL",
+  "modelId": "eleven_multilingual_v2",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.75,
+    "style": 0,
+    "use_speaker_boost": true,
+    "speed": 0.9
+  },
+  "generatedAt": "2026-09-06T22:30:00.940Z",
+  "provider": "ElevenLabs",
+  "clips": {
+    "more": {
+      "text": "More",
+      "src": "/audio/tiles/991a4b548de519bd.mp3",
+      "duration": 0.463016
+    },
+    "help": {
+      "text": "Help",
+      "src": "/audio/tiles/5b9affc9a10cf686.mp3",
+      "duration": 0.587007
+    },
+    "stop": {
+      "text": "Stop",
+      "src": "/audio/tiles/89cacaa72b7c556f.mp3",
+      "duration": 0.64034
+    },
+    "go": {
+      "text": "Go",
+      "src": "/audio/tiles/ab4db39ba3f7ec19.mp3",
+      "duration": 0.538141
+    },
+    "want": {
+      "text": "Want",
+      "src": "/audio/tiles/5871c3a28c7f05a7.mp3",
+      "duration": 0.500975
+    },
+    "like": {
+      "text": "Like",
+      "src": "/audio/tiles/93b35ae50094b8e8.mp3",
+      "duration": 0.603741
+    },
+    "don't like": {
+      "text": "Don't like",
+      "src": "/audio/tiles/b5390493262efaa7.mp3",
+      "duration": 0.67449
+    },
+    "again": {
+      "text": "Again",
+      "src": "/audio/tiles/74941d67cbabd8eb.mp3",
+      "duration": 0.654127
+    },
+    "all done": {
+      "text": "All done",
+      "src": "/audio/tiles/2580a536d9f9605e.mp3",
+      "duration": 0.670612
+    },
+    "yes": {
+      "text": "Yes",
+      "src": "/audio/tiles/99538ceda1f91519.mp3",
+      "duration": 0.549637
+    },
+    "no": {
+      "text": "No",
+      "src": "/audio/tiles/257b639b8c6044ec.mp3",
+      "duration": 0.507596
+    },
+    "mine": {
+      "text": "Mine",
+      "src": "/audio/tiles/76cf5529152da921.mp3",
+      "duration": 0.572404
+    },
+    "my": {
+      "text": "My",
+      "src": "/audio/tiles/1efdda57d93d717d.mp3",
+      "duration": 0.630975
+    },
+    "you": {
+      "text": "You",
+      "src": "/audio/tiles/66d601e362c4e346.mp3",
+      "duration": 0.402449
+    },
+    "it": {
+      "text": "It",
+      "src": "/audio/tiles/02106e998fba055b.mp3",
+      "duration": 0.322993
+    },
+    "here": {
+      "text": "Here",
+      "src": "/audio/tiles/1544e0c5c7077623.mp3",
+      "duration": 0.527778
+    },
+    "there": {
+      "text": "There",
+      "src": "/audio/tiles/ea69e189e57d2c6c.mp3",
+      "duration": 0.527846
+    },
+    "in": {
+      "text": "In",
+      "src": "/audio/tiles/2425f42f779ed119.mp3",
+      "duration": 0.458912
+    },
+    "out": {
+      "text": "Out",
+      "src": "/audio/tiles/5374f6eb615533ea.mp3",
+      "duration": 0.47873
+    },
+    "up": {
+      "text": "Up",
+      "src": "/audio/tiles/67463b94b334cdae.mp3",
+      "duration": 0.380136
+    },
+    "down": {
+      "text": "Down",
+      "src": "/audio/tiles/a9baf2045b10ce78.mp3",
+      "duration": 0.571315
+    },
+    "on": {
+      "text": "On",
+      "src": "/audio/tiles/09e653a7c8995ece.mp3",
+      "duration": 0.487528
+    },
+    "off": {
+      "text": "Off",
+      "src": "/audio/tiles/4fc631b77cd2f0f5.mp3",
+      "duration": 0.51712
+    },
+    "open": {
+      "text": "Open",
+      "src": "/audio/tiles/ba828dda67eac690.mp3",
+      "duration": 0.5339
+    },
+    "close": {
+      "text": "Close",
+      "src": "/audio/tiles/81c8c865e3444a45.mp3",
+      "duration": 0.696009
+    },
+    "eat": {
+      "text": "Eat",
+      "src": "/audio/tiles/02546706e9c67d40.mp3",
+      "duration": 0.549637
+    },
+    "drink": {
+      "text": "Drink",
+      "src": "/audio/tiles/bf557a26288b2f20.mp3",
+      "duration": 0.592063
+    },
+    "play": {
+      "text": "Play",
+      "src": "/audio/tiles/188fb84c86477f22.mp3",
+      "duration": 0.556848
+    },
+    "look": {
+      "text": "Look",
+      "src": "/audio/tiles/a96876cd372fb77e.mp3",
+      "duration": 0.47127
+    },
+    "read": {
+      "text": "Read",
+      "src": "/audio/tiles/d221de26ab273cd3.mp3",
+      "duration": 0.500363
+    },
+    "wash": {
+      "text": "Wash",
+      "src": "/audio/tiles/44f1f76b7e577239.mp3",
+      "duration": 0.628073
+    },
+    "need": {
+      "text": "Need",
+      "src": "/audio/tiles/4b16539a6df3746c.mp3",
+      "duration": 0.591043
+    },
+    "hello": {
+      "text": "Hello",
+      "src": "/audio/tiles/13452030e6b0ff3d.mp3",
+      "duration": 0.56907
+    },
+    "goodbye": {
+      "text": "Goodbye",
+      "src": "/audio/tiles/637d9fbd1ce920d7.mp3",
+      "duration": 0.610726
+    },
+    "i": {
+      "text": "I",
+      "src": "/audio/tiles/d4f89af94cfbdd33.mp3",
+      "duration": 0.280272
+    },
+    "me": {
+      "text": "Me",
+      "src": "/audio/tiles/36eeb9b1265695cc.mp3",
+      "duration": 0.561224
+    },
+    "finished": {
+      "text": "Finished",
+      "src": "/audio/tiles/ee658aa6a3f76aa7.mp3",
+      "duration": 0.545442
+    },
+    "please": {
+      "text": "Please",
+      "src": "/audio/tiles/a93a6fc9d6c7f6a1.mp3",
+      "duration": 0.689683
+    },
+    "thank you": {
+      "text": "Thank you",
+      "src": "/audio/tiles/cc01b425f132b831.mp3",
+      "duration": 0.615556
+    },
+    "i am happy": {
+      "text": "I am happy",
+      "src": "/audio/tiles/32d75c5293babcaf.mp3",
+      "duration": 0.865465
+    },
+    "i am sad": {
+      "text": "I am sad",
+      "src": "/audio/tiles/4b642bcb3c9aa89d.mp3",
+      "duration": 0.917619
+    },
+    "i am tired": {
+      "text": "I am tired",
+      "src": "/audio/tiles/410b08c023bc94cb.mp3",
+      "duration": 0.978209
+    },
+    "i am scared": {
+      "text": "I am scared",
+      "src": "/audio/tiles/f448c73f1984cf28.mp3",
+      "duration": 0.93517
+    },
+    "i love you": {
+      "text": "I love you",
+      "src": "/audio/tiles/a6369c34c001f927.mp3",
+      "duration": 0.782018
+    },
+    "i need a break": {
+      "text": "I need a break",
+      "src": "/audio/tiles/4e6aeb168b9738bb.mp3",
+      "duration": 0.873016
+    },
+    "i am hungry": {
+      "text": "I am hungry",
+      "src": "/audio/tiles/1a9a2e9c39e5cc42.mp3",
+      "duration": 0.945805
+    },
+    "i am thirsty": {
+      "text": "I am thirsty",
+      "src": "/audio/tiles/667795cf25243103.mp3",
+      "duration": 0.899252
+    },
+    "i need the bathroom": {
+      "text": "I need the bathroom",
+      "src": "/audio/tiles/ea22b9dd5bfc34ab.mp3",
+      "duration": 1.281066
+    },
+    "i need help": {
+      "text": "I need help",
+      "src": "/audio/tiles/1bbe44489240b2cc.mp3",
+      "duration": 0.903469
+    },
+    "i am in pain": {
+      "text": "I am in pain",
+      "src": "/audio/tiles/5a82a6a6bdc11aa0.mp3",
+      "duration": 1.051995
+    },
+    "i want to rest": {
+      "text": "I want to rest",
+      "src": "/audio/tiles/daf6012003558872.mp3",
+      "duration": 1.094785
+    },
+    "water, please": {
+      "text": "Water, please",
+      "src": "/audio/tiles/ebc1e9d7f71c64d4.mp3",
+      "duration": 0.979977
+    },
+    "more, please": {
+      "text": "More, please",
+      "src": "/audio/tiles/2778a4b8adb9d6dd.mp3",
+      "duration": 0.876712
+    },
+    "i like this": {
+      "text": "I like this",
+      "src": "/audio/tiles/659fff3fe0f5c091.mp3",
+      "duration": 0.863107
+    },
+    "i do not like this": {
+      "text": "I do not like this",
+      "src": "/audio/tiles/4f892e22f84db5b5.mp3",
+      "duration": 1.176576
+    },
+    "mom": {
+      "text": "Mom",
+      "src": "/audio/tiles/c58c1dc27c996f43.mp3",
+      "duration": 0.534694
+    },
+    "dad": {
+      "text": "Dad",
+      "src": "/audio/tiles/6f01702b4bfe2f5c.mp3",
+      "duration": 0.479546
+    },
+    "friend": {
+      "text": "Friend",
+      "src": "/audio/tiles/2ccb73c115303896.mp3",
+      "duration": 0.571633
+    },
+    "teacher": {
+      "text": "Teacher",
+      "src": "/audio/tiles/3f7d283344f0af12.mp3",
+      "duration": 0.634921
+    },
+    "doctor": {
+      "text": "Doctor",
+      "src": "/audio/tiles/0d862861d5f66e4c.mp3",
+      "duration": 0.61771
+    },
+    "i want to play": {
+      "text": "I want to play",
+      "src": "/audio/tiles/20b6581e2120a472.mp3",
+      "duration": 0.904286
+    },
+    "read a book": {
+      "text": "Read a book",
+      "src": "/audio/tiles/7a87e918d60a6426.mp3",
+      "duration": 0.665079
+    },
+    "watch a show": {
+      "text": "Watch a show",
+      "src": "/audio/tiles/9234f4df9dc6e7c6.mp3",
+      "duration": 0.979252
+    },
+    "go outside": {
+      "text": "Go outside",
+      "src": "/audio/tiles/59992670232dd31b.mp3",
+      "duration": 0.826327
+    },
+    "listen to music": {
+      "text": "Listen to music",
+      "src": "/audio/tiles/3e4fdecea10d60ae.mp3",
+      "duration": 1.182132
+    },
+    "school": {
+      "text": "School",
+      "src": "/audio/tiles/f4ed5a8e31c40749.mp3",
+      "duration": 0.907302
+    },
+    "class": {
+      "text": "Class",
+      "src": "/audio/tiles/e6d65a714f3fa0ad.mp3",
+      "duration": 0.659116
+    },
+    "write": {
+      "text": "Write",
+      "src": "/audio/tiles/9ebaae7e97efcbec.mp3",
+      "duration": 0.442063
+    },
+    "draw": {
+      "text": "Draw",
+      "src": "/audio/tiles/b0832f1cf8bc084d.mp3",
+      "duration": 0.529206
+    },
+    "book": {
+      "text": "Book",
+      "src": "/audio/tiles/be348209076446f9.mp3",
+      "duration": 0.554512
+    },
+    "pencil": {
+      "text": "Pencil",
+      "src": "/audio/tiles/cc3e21c92602e5de.mp3",
+      "duration": 0.658254
+    },
+    "paper": {
+      "text": "Paper",
+      "src": "/audio/tiles/90453e1d0862e747.mp3",
+      "duration": 0.6378
+    },
+    "backpack": {
+      "text": "Backpack",
+      "src": "/audio/tiles/1cbac8759305de51.mp3",
+      "duration": 0.72322
+    },
+    "lunch": {
+      "text": "Lunch",
+      "src": "/audio/tiles/af40b53ddeda259d.mp3",
+      "duration": 0.604853
+    },
+    "recess": {
+      "text": "Recess",
+      "src": "/audio/tiles/09f28c1baeabf285.mp3",
+      "duration": 0.744943
+    },
+    "bathroom": {
+      "text": "Bathroom",
+      "src": "/audio/tiles/88fb825807b9682f.mp3",
+      "duration": 0.685737
+    }
+  }
+}

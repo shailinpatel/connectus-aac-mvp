@@ -34,11 +34,14 @@ const SHELL = ${JSON.stringify("connectus-shell-" + buildId)};
 const PICTURES = 'connectus-pictures-v1';
 const PRECACHE = ${JSON.stringify(precache)};
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(SHELL).then(cache => cache.addAll(PRECACHE)));
+  event.waitUntil(caches.open(SHELL).then(cache => cache.addAll(PRECACHE)).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
-    for (const key of await caches.keys()) if (key.startsWith('connectus-shell-') && key !== SHELL) await caches.delete(key);
+    // Keep the previous shell's assets for any open tabs during a compatible update.
+    const shells = (await caches.keys()).filter(key => key.startsWith('connectus-shell-'));
+    const previous = shells.filter(key => key !== SHELL).at(-1);
+    for (const key of shells) if (key !== SHELL && key !== previous) await caches.delete(key);
     await self.clients.claim();
   })());
 });
@@ -48,15 +51,15 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
   if (request.mode === 'navigate' && url.pathname === '/') {
     event.respondWith(fetch(request).catch(async () => (await caches.open(SHELL)).match('/offline.html')));
-  } else if (url.pathname.startsWith('/pictograms/') || url.pathname.startsWith('/api/photos/')) {
+  } else if (url.pathname.startsWith('/pictograms/') || url.pathname.startsWith('/api/photos/') || url.pathname.startsWith('/audio/tiles/')) {
     event.respondWith((async () => {
       const cache = await caches.open(PICTURES);
       return await cache.match(request) || fetch(request);
     })());
-  } else if (PRECACHE.includes(url.pathname)) {
+  } else if (PRECACHE.includes(url.pathname) || url.pathname.startsWith('/_next/static/')) {
     event.respondWith((async () => {
       const cache = await caches.open(SHELL);
-      return await cache.match(url.pathname) || fetch(request);
+      return await cache.match(url.pathname) || await caches.match(request) || fetch(request);
     })());
   }
   // Never cache caregiver sessions or mutation responses.
