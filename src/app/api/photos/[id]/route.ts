@@ -1,3 +1,5 @@
+import { usesSupabase } from "@/lib/backend";
+import { cloudPhoto } from "@/lib/supabase/store";
 import { BOARD_ID, db, initialize } from "@/lib/db";
 import { failure } from "@/lib/http";
 export async function GET(
@@ -5,8 +7,16 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    await initialize();
     const { id } = await params;
+    if (usesSupabase())
+      return new Response(await cloudPhoto(id), {
+        headers: {
+          "Content-Type": "image/webp",
+          "Cache-Control": "private, no-store",
+          "X-Content-Type-Options": "nosniff",
+        },
+      });
+    await initialize();
     const result = await db().execute({
       sql: "SELECT bytes FROM photos WHERE id=? AND board_id=?",
       args: [id, BOARD_ID],

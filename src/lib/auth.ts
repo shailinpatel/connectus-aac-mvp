@@ -1,3 +1,5 @@
+import { usesSupabase } from "./backend";
+import { cloudCaregiver } from "./supabase/store";
 import {
   createHash,
   randomBytes,
@@ -19,6 +21,7 @@ export function verifyPin(pin: string, stored: string) {
   return timingSafeEqual(scryptSync(pin, salt, 64), Buffer.from(hash, "hex"));
 }
 export async function authenticated() {
+  if (usesSupabase()) return (await cloudCaregiver("status")).unlocked;
   await initialize();
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!token) return false;

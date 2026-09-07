@@ -1,36 +1,41 @@
-# Local full stack MVP
+# Connectus backend and account boundaries
 
-## Decisions
+## Two environments
 
-The first release has one shared communication board and a server-side caregiver PIN. Children can communicate immediately without signing in. PIN setup is explicit, edits require a valid HTTP-only session, and finishing caregiver mode revokes the session in the database. PINs use scrypt with random salts; session tokens are random and stored only as SHA-256 hashes server-side. Mutation routes check the request origin against the browser-facing host. Failed attempts and the cooldown live in the database rather than process memory.
+The default environment preserves the original single-board SQLite demo and the caregiver's existing PIN and photos. It requires no cloud credentials. Configuring the Supabase URL and publishable key switches every board, category, tile, photo, and caregiver route to Supabase. Partial configuration is an error, and Vercel requires Supabase. Local data is not silently imported into any Google account.
 
-Next.js provides one codebase and one deployable service. SQLite makes local setup immediate. The same SQL client can target Turso without changing the route contracts. Categories, tiles, and photos carry a board ID to support future ownership. The MVP returns only the fixed local board; it does not pretend to provide accounts.
+Next.js serves a static interface shell and dynamic API routes. No account, board, or child data is server-rendered into the cached shell. Google authentication starts with a same-origin POST, uses Supabase OAuth with PKCE, exchanges the code on the server, and redirects to a fixed configured origin. Tokens remain in HTTP-only cookies. API handlers create a fresh Supabase client per request and verify the current user, refreshing cookies as necessary.
 
-Photos are decoded with a pixel limit and a strict file-type allowlist, resized, and re-encoded on the server. Photo insertion/replacement/deletion and the associated tile change happen in one write transaction. Storing small normalized photos in the database avoids temporary local-file assumptions on serverless hosts. A future storage adapter can move images to private object storage when usage warrants it.
+## Private boards and editing
+
+One authenticated account owns one board. The first board read transactionally creates the standard categories and vocabulary once. Stable category IDs preserve the familiar icons. Categories and tiles use composite board-scoped keys; their relationships cannot cross board boundaries. RLS filters every direct table read by the owner. Signed-out users cannot open a board or photo.
+
+Mutation RPCs run in transactions, check the caller's ownership, require a hashed caregiver-session token, and serialize board modifications with a board-row lock. Database users have no direct table-write grants. PINs and sessions are held in a private, unexposed schema; sessions bind to the owner, board, and Supabase auth-session ID. PIN cooldowns persist in Postgres. The PIN remains a child-facing editing lock within the caregiver account; it does not replace Google authentication.
+
+Normalized photos live in a private Storage bucket under `board-id/photo-id.webp`. Owner policies protect reads, uploads, and deletion. App upload routes additionally require the editing PIN and re-encode accepted images to WebP without location metadata. The server proxies authorized photo reads with `private, no-store`. Failed tile changes trigger new-object cleanup; successful replacement/deletion removes the old file. An interrupted Storage cleanup can leave a private orphan for later maintenance, not a broken tile transaction.
+
+## Offline lifecycle and sign-out
+
+The production service worker caches the public shell, scripts, styles, symbols, and voice recordings. IndexedDB stores an explicit owner-scoped board snapshot. Only one family may be enrolled per browser profile at a time. Private photos are downloaded into the explicit offline asset cache; network access is attempted first, and HTTP authorization failures never fall back to cached photos.
+
+Online startup checks the account before displaying a saved board. A network outage allows the last enrolled board to reopen without a new sign-in. Offline use remains read-only. The default local-only legacy snapshot can be read as local data, never as a cloud account's board.
+
+Sign-out requires connectivity and confirmation, revokes the current device's editing and refresh sessions, removes the saved board/photos/preferences, and clears visible sentences. A shared generation marker invalidates late responses, other tabs clear their visible data, and a browser lock serializes cache downloads against deletion. Changing accounts purges the previous snapshot before accepting the new board. Finishing editing only revokes the editing session, leaving communication available.
+
+A device already offline cannot observe a remote logout. Its saved data remains available to someone using that unlocked device until it reconnects or the browser data is removed. Device enrollment and remote device management remain future work. Browser clearing/eviction can remove offline data; cloud persistence and device caches have different lifecycles.
 
 ## Source map
 
-- `src/components/communication-board.tsx`: communication flow, category navigation, speech, caregiver state, and cached-board loading.
-- `src/components/caregiver.tsx`: PIN setup/unlock and caregiver settings.
-- `src/components/tile-editor.tsx`: tile editing, uploads, and confirmed deletion.
-- `src/lib/db.ts`: schema initialization, transactional one-time seeding, database client, and board serialization.
-- `src/lib/seed.json`: recovered original vocabulary, categories, ordering, and favorites.
-- `src/app/api/`: board reads; protected tile/category mutations; caregiver sessions; photo reads.
-- `src/lib/offline.ts`: IndexedDB snapshots and picture caching.
-- `scripts/build-offline.mjs`: generates a versioned service worker and offline HTML from the actual production build.
+- `src/lib/backend.ts`: configuration and hosted fail-closed behavior.
+- `src/lib/supabase/server.ts`: request-local auth client, verified user, trusted return origin.
+- `src/lib/supabase/store.ts`: cloud board reads, caregiver sessions, mutations, private photo handling.
+- `supabase/migrations/`: reproducible Postgres schema, policies, functions, bucket and starter vocabulary.
+- `src/app/auth/`: Google entry, callback, and device sign-out.
+- `src/app/api/account/`: current account/mode without private board data.
+- `src/lib/db.ts`, `src/lib/auth.ts`: local SQLite persistence/PIN with Supabase dispatch.
+- `src/lib/offline.ts`, `scripts/build-offline.mjs`: account-aware snapshots, asset cache, service worker.
+- `tests/supabase/`: real local Postgres/Auth/Storage isolation and browser lifecycle tests.
 
-## Offline lifecycle
+## Remaining production work
 
-The home page is a static React shell; it contains no server-rendered child or caregiver data. Online board reads update the visible state immediately and serialize cache writes. Offline startup restores the last IndexedDB snapshot. The production service worker pre-caches the generated shell, JavaScript, CSS, font files, and icons; board pictures and matching voice recordings are downloaded separately. Caregiver endpoints and mutation responses are never cached. Old photo cache entries are removed after a successful full snapshot download.
-
-An offline session is read-only. No write queue exists, so the app never claims that unsent edits have synced. A restored connection refreshes from the server. Compatible service worker updates activate immediately so existing tabs gain audio caching. The previous shell cache is retained for open tabs; older shell caches are removed. Changes to the data contract will need explicit IndexedDB migration and shell compatibility handling.
-
-## Future accounts and devices
-
-1. Add managed caregiver authentication and account recovery. Add board memberships and scope every route and image to the authorized family; a caregiver PIN remains a secondary child-facing editing lock.
-2. Scope IndexedDB and caches to the family/board. Add explicit device enrollment, logout behavior, local data removal, and shared-device handling.
-3. Add a board revision and optimistic concurrency before enabling simultaneous multi-device editing. Today this is a single-caregiver local app; concurrent edits to the same tile use last-write-wins.
-4. Introduce an offline mutation log with stable operation IDs, retries, conflict resolution, and observable sync status only when offline editing is required. Offline reading already works without accounts.
-5. Test PWA installation, speech, touch targets, and storage survival on the intended iPads/Android devices. If native capabilities become necessary, keep the board API and vocabulary model while replacing the presentation and device-storage layers.
-
-No analytics or runtime external speech provider is included. The bundled Sarah recordings were generated offline using ElevenLabs; browser speech handles unrecorded custom text. ARASAAC source symbol choices are inherited from the MVP and should be reviewed with the child's caregiver or communication professional as part of tailoring the board; the editor lets them replace unfamiliar pictures.
+Create and configure a dedicated hosted Connectus Supabase project, apply the committed migration, configure Google OAuth, and observe real Google sign-in. No hosting or provider configuration is claimed by local fixture tests. Caregiver invitations, PIN recovery, account deletion/storage cleanup, offline mutations, conflict resolution, and native-device enrollment are deferred. Test actual playback, PWA installation, and storage survival on the intended iPad/Android device before family use. See `supabase-setup.md` for the concrete configuration steps.

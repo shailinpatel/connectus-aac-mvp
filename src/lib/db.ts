@@ -1,3 +1,5 @@
+import { usesSupabase } from "./backend";
+import { cloudBoard } from "./supabase/store";
 import { createClient, type Client } from "@libsql/client";
 import { mkdirSync } from "node:fs";
 import seed from "./seed.json";
@@ -9,17 +11,11 @@ const globalDb = globalThis as unknown as {
 };
 export function db() {
   if (!globalDb.connectusDb) {
-    if (process.env.VERCEL && !process.env.TURSO_DATABASE_URL)
-      throw new Error(
-        "Configure TURSO_DATABASE_URL before deploying to Vercel.",
-      );
-    if (!process.env.TURSO_DATABASE_URL) mkdirSync("data", { recursive: true });
+    if (process.env.VERCEL)
+      throw new Error("Use the Supabase backend on Vercel.");
+    mkdirSync("data", { recursive: true });
     globalDb.connectusDb = createClient({
-      url:
-        process.env.TURSO_DATABASE_URL ||
-        process.env.DATABASE_URL ||
-        "file:data/connectus.db",
-      authToken: process.env.TURSO_AUTH_TOKEN,
+      url: process.env.DATABASE_URL || "file:data/connectus.db",
     });
   }
   return globalDb.connectusDb;
@@ -78,6 +74,7 @@ export async function initialize() {
 }
 export const BOARD_ID = "local-board";
 export async function getBoard(): Promise<Board> {
+  if (usesSupabase()) return cloudBoard();
   await initialize();
   const [boards, cats, tiles] = await Promise.all([
     db().execute({ sql: "SELECT * FROM boards WHERE id=?", args: [BOARD_ID] }),

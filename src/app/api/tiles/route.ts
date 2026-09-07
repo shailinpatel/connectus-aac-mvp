@@ -1,3 +1,5 @@
+import { usesSupabase } from "@/lib/backend";
+import { cloudMutate } from "@/lib/supabase/store";
 import { randomUUID } from "node:crypto";
 import sharp from "sharp";
 import { z } from "zod";
@@ -61,6 +63,11 @@ async function save(request: Request, editing: boolean) {
         );
       }
     }
+    if (usesSupabase())
+      return Response.json(
+        await cloudMutate(editing ? "tile-update" : "tile-create", tile, bytes),
+        { status: editing ? 200 : 201 },
+      );
     const tx = await db().transaction("write");
     try {
       const category = await tx.execute({
@@ -138,6 +145,8 @@ export async function DELETE(request: Request) {
     const { id } = z
       .object({ id: z.string().min(1).max(80) })
       .parse(await jsonBody(request));
+    if (usesSupabase())
+      return Response.json(await cloudMutate("tile-delete", { id }));
     const tx = await db().transaction("write");
     try {
       const existing = await tx.execute({

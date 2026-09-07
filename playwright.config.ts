@@ -1,6 +1,7 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests",
+  testIgnore: "**/supabase/**",
   fullyParallel: false,
   workers: 1,
   timeout: 45000,
@@ -17,8 +18,8 @@ export default defineConfig({
     url: "http://127.0.0.1:3100",
     env: {
       DATABASE_URL: `file:data/e2e-${process.pid}.db`,
-      TURSO_DATABASE_URL: "",
-      TURSO_AUTH_TOKEN: "",
+      NEXT_PUBLIC_SUPABASE_URL: "",
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "",
     },
     reuseExistingServer: false,
     timeout: 30000,

@@ -7,11 +7,17 @@
     "build": "next build --webpack && node scripts/build-offline.mjs",
     "start": "next start --hostname 127.0.0.1",
     "typecheck": "tsc --noEmit",
-    "test": "playwright test"
+    "test": "playwright test",
+    "supabase:local-config": "node scripts/supabase-local-config.mjs",
+    "start:supabase": "node --env-file=.env.supabase.local node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3300",
+    "test:supabase:db": "node --test tests/supabase/access.test.mjs",
+    "test:supabase": "playwright test --config=playwright.supabase.config.ts"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.3.0",
     "@libsql/client": "0.18.0",
+    "@supabase/ssr": "^0.12.6",
+    "@supabase/supabase-js": "^2.115.0",
     "lucide-react": "^0.577.0",
     "next": "16.3.4",
     "react": "19.2.8",

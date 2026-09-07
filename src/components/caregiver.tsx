@@ -102,8 +102,8 @@ export function CaregiverUnlock({
               />
             </label>
             <p className="helper">
-              Use 4–8 digits and keep them somewhere safe. This local version
-              has no email recovery or family accounts.
+              Use 4–8 digits and keep them somewhere safe. PIN recovery is not
+              available yet.
             </p>
           </>
         )}

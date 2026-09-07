@@ -1,3 +1,5 @@
+import { usesSupabase } from "@/lib/backend";
+import { cloudCaregiver } from "@/lib/supabase/store";
 import { randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
 import { z } from "zod";
@@ -13,6 +15,10 @@ import { failure, HttpError, jsonBody, sameOrigin } from "@/lib/http";
 export const dynamic = "force-dynamic";
 export async function GET() {
   try {
+    if (usesSupabase())
+      return Response.json(await cloudCaregiver("status"), {
+        headers: { "Cache-Control": "no-store" },
+      });
     await initialize();
     const result = await db().execute("SELECT id FROM caregiver WHERE id=1");
     return Response.json(
@@ -36,6 +42,8 @@ export async function POST(request: Request) {
           .optional(),
       })
       .parse(await jsonBody(request));
+    if (usesSupabase())
+      return Response.json(await cloudCaregiver(action, pin, newPin));
     await initialize();
     const tx = await db().transaction("write");
     let rejected = false;
@@ -114,6 +122,7 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   try {
     sameOrigin(request);
+    if (usesSupabase()) return Response.json(await cloudCaregiver("lock"));
     await initialize();
     const jar = await cookies();
     const token = jar.get(SESSION_COOKIE)?.value;

@@ -1,8 +1,19 @@
+export class ApiError extends Error {
+  constructor(
+    public status: number,
+    message: string,
+  ) {
+    super(message);
+  }
+}
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, { ...init, cache: "no-store" });
   const result = await response.json();
   if (!response.ok)
-    throw new Error(result.error || "Something went wrong. Please try again.");
+    throw new ApiError(
+      response.status,
+      result.error || "Something went wrong. Please try again.",
+    );
   return result;
 }
 export function jsonRequest(method: string, body: unknown): RequestInit {

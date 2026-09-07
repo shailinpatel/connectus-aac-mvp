@@ -345,3 +345,28 @@ test("mobile layout and accessibility", async ({ page }) => {
     page.getByRole("button", { name: "Add tile", exact: true }),
   ).toBeFocused();
 });
+
+test("live board works when browser storage is unavailable", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(window, "indexedDB", {
+      get() {
+        throw new Error("Storage unavailable");
+      },
+    });
+    Object.defineProperty(window, "localStorage", {
+      get() {
+        throw new Error("Storage unavailable");
+      },
+    });
+  });
+  await page.goto("/");
+  await expect(
+    page.getByRole("button", { name: "Say Help", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Say Help", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "Remove Help at position 1" }),
+  ).toBeVisible();
+});

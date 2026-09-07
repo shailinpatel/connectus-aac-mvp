@@ -31,7 +31,7 @@ await writeFile(
   "public/sw.js",
   `
 const SHELL = ${JSON.stringify("connectus-shell-" + buildId)};
-const PICTURES = 'connectus-pictures-v1';
+const PICTURES = 'connectus-pictures-v2';
 const PRECACHE = ${JSON.stringify(precache)};
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(SHELL).then(cache => cache.addAll(PRECACHE)).then(() => self.skipWaiting()));
@@ -42,6 +42,7 @@ self.addEventListener('activate', event => {
     const shells = (await caches.keys()).filter(key => key.startsWith('connectus-shell-'));
     const previous = shells.filter(key => key !== SHELL).at(-1);
     for (const key of shells) if (key !== SHELL && key !== previous) await caches.delete(key);
+    await caches.delete('connectus-pictures-v1');
     await self.clients.claim();
   })());
 });
@@ -54,6 +55,9 @@ self.addEventListener('fetch', event => {
   } else if (url.pathname.startsWith('/pictograms/') || url.pathname.startsWith('/api/photos/') || url.pathname.startsWith('/audio/tiles/')) {
     event.respondWith((async () => {
       const cache = await caches.open(PICTURES);
+      if (url.pathname.startsWith('/api/photos/')) {
+        try { return await fetch(request); } catch { return await cache.match(request) || new Response('Photo unavailable', {status:503}); }
+      }
       return await cache.match(request) || fetch(request);
     })());
   } else if (PRECACHE.includes(url.pathname) || url.pathname.startsWith('/_next/static/')) {

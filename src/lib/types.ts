@@ -14,6 +14,7 @@ export type Tile = {
   sortOrder: number;
 };
 export type Board = {
+  ownerId?: string;
   id: string;
   name: string;
   categories: Category[];

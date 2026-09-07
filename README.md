@@ -32,7 +32,7 @@ Full offline page reloads are enabled in the production build, not the developme
 - **Board settings** includes speech voices and speed, speak-on-tap, extra-large tiles, categories, and PIN changes. A category must be empty before it can be removed.
 - Select **Finish editing** to revoke the caregiver session. Sessions expire after one hour. Five incorrect PIN attempts trigger a five-minute cooldown.
 
-The data is stored in **`data/connectus.db`**, not just in browser memory. Restarting the server preserves tiles, custom photos, categories, and the caregiver PIN. Browser preferences stay on that device. Back up the whole `data/` directory while the server is stopped. There is no PIN recovery UI yet; keep your PIN somewhere safe.
+In the default local demo, data is stored in **`data/connectus.db`**, not just in browser memory. Restarting the server preserves tiles, custom photos, categories, and the caregiver PIN. Browser preferences stay on that device. Back up the whole `data/` directory while the server is stopped. There is no PIN recovery UI yet; keep your PIN somewhere safe.
 
 ## Offline behavior
 
@@ -45,14 +45,16 @@ The standard board uses **Sarah**, one warm, calm ElevenLabs voice. All 83 start
 ## Stack and deployment path
 
 - Next.js App Router + React + TypeScript for the interface and API routes.
-- SQLite via `@libsql/client` for zero-setup local persistence; compatible with hosted Turso through environment variables.
-- Sharp for validated photo processing. Small, normalized photo bytes are stored in the database, so this version doesn't require a separate storage service.
+- SQLite via `@libsql/client` for the existing zero-setup local demo; Supabase Postgres for account-backed boards.
+- Sharp for validated photo processing. Photos stay in SQLite for the local demo and in a private Supabase Storage bucket for signed-in boards.
 - IndexedDB + a build-versioned service worker for offline reading.
 - Plain CSS, locally bundled DM Sans, Lucide icons, and the existing pictograms. No third-party runtime font or image requests.
 
-Nothing has been deployed. For a later **private single-board deployment on Vercel**, configure `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` securely in the dashboard and use `npm run build`. SQLite files on Vercel's local filesystem are not persistent; the app refuses that configuration. The same app can run on Railway with persistent storage or with Turso.
+Nothing has been deployed. **Vercel + Supabase** is the production path. Supabase mode includes Google OAuth entry and callback routes, private boards, owner-scoped database and photo access, and the separate caregiver editing PIN. One account owns one board; invitations to other caregivers are deferred. The app uses a publishable key and the signed-in user's session, with no runtime service-role key.
 
-Before a public multi-family launch, add caregiver accounts, board membership/ownership authorization on **all** reads and writes (including photos), account recovery, and scoped offline storage. Today there is intentionally one shared board, and anyone who can reach the server can view it. Use access-protected hosting for a private preview. See [architecture notes](docs/architecture.md) for the next steps.
+Configure `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, and `CONNECTUS_SITE_URL` to enable Supabase mode. Vercel fails closed without Supabase; it cannot use the local SQLite demo. Google credentials still need to be configured in a dedicated Supabase project before real Google sign-in is available. See [Supabase and Google setup](docs/supabase-setup.md) for the committed migration, exact callback URLs, local testing, and remaining launch checks.
+
+Offline snapshots carry their owner. Online startup validates the account before displaying saved family data. **Sign out** confirms removal of the saved board, photos, preferences, and sentence across open tabs on this browser; **Finish editing** keeps the account and offline board available. The local demo and its existing PIN remain separate and are not automatically uploaded to Supabase.
 
 ## Verification
 
@@ -65,7 +67,9 @@ npm test
 
 If Google Chrome is already installed, `PLAYWRIGHT_CHANNEL=chrome npm test` uses it instead. Tests start an isolated server on port 3100 and a separate `data/e2e-*.db`; they do not change the local board on port 3000.
 
-The tests cover authorization, origin validation, caregiver setup/unlock, recorded speech and fallback behavior, photos surviving reload, offline page reload with a custom photo and working recorded speech, online reconnection, invalid-image rejection, category/tile creation and deletion, mobile overflow, keyboard dialog behavior, and automated WCAG accessibility checks. Test databases and screenshots are ignored by Git.
+For Supabase, follow the local setup guide and run `npm run test:supabase:db` plus `PLAYWRIGHT_CHANNEL=chrome npm run test:supabase`. These use disposable local accounts to check isolation, Storage policies, private photos, PIN throttling, OAuth routing, and offline/logout behavior. Real Google consent still needs provider configuration and an observed sign-in.
+
+The local-demo tests cover authorization, origin validation, caregiver setup/unlock, recorded speech and fallback behavior, photos surviving reload, offline page reload with a custom photo and working recorded speech, online reconnection, invalid-image rejection, category/tile creation and deletion, mobile overflow, keyboard dialog behavior, and automated WCAG accessibility checks. Test databases and screenshots are ignored by Git.
 
 ## Original MVP and artwork
 

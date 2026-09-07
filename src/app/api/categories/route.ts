@@ -1,3 +1,5 @@
+import { usesSupabase } from "@/lib/backend";
+import { cloudMutate } from "@/lib/supabase/store";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { requireCaregiver } from "@/lib/auth";
@@ -13,6 +15,10 @@ export async function POST(request: Request) {
         color: z.enum(palette),
       })
       .parse(await jsonBody(request));
+    if (usesSupabase())
+      return Response.json(await cloudMutate("category-create", c), {
+        status: 201,
+      });
     await db().execute({
       sql: "INSERT INTO categories VALUES (?, ?, ?, ?, (SELECT COALESCE(MAX(sort_order), -1)+1 FROM categories))",
       args: [randomUUID(), BOARD_ID, c.name, c.color],
@@ -28,6 +34,8 @@ export async function DELETE(request: Request) {
     const { id } = z
       .object({ id: z.string().min(1).max(80) })
       .parse(await jsonBody(request));
+    if (usesSupabase())
+      return Response.json(await cloudMutate("category-delete", { id }));
     const tx = await db().transaction("write");
     try {
       const count = await tx.execute({
